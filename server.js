@@ -1,32 +1,34 @@
+// ─────────────────────────────────────────────
+// server.js — Entry point
+// To add a new entity: add one app.use() line below
+// ─────────────────────────────────────────────
 const express = require("express");
-const mysql = require("mysql2");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
+
+// Initialise DB connection (side-effect: logs success/failure)
+require("./db");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ── Static files ──────────────────────────────
+const publicPath = path.join(__dirname, "public");
+app.use(express.static(publicPath));
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
-db.connect(err => {
-  if (err) throw err;
-  console.log("MySQL Connected");
-});
+// ── API Routes ────────────────────────────────
+app.use("/suppliers", require("./routes/suppliers"));
+// app.use("/products",  require("./routes/products"));  ← add future entities here
+// app.use("/customers", require("./routes/customers"));
 
-
-app.get("/suppliers", (req, res) => {
-  db.query("SELECT * FROM Supplier", (err, result) => {
-    if (err) throw err;
-    res.json(result);
-  });
+// ── Fallback: serve index.html for root ───────
+app.get("/", (req, res) => {
+  res.sendFile(path.join(publicPath, "index.html"));
 });
 
+// ── Start ─────────────────────────────────────
 app.listen(3000, () => {
-  console.log("Server running on port 3000");
+  console.log("🚀 Server running at http://localhost:3000");
 });

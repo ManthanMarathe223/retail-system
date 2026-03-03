@@ -1,0 +1,41 @@
+/* ─────────────────────────────────────────────
+   styles.css — Global styles for Retail System
+   ───────────────────────────────────────────── */
+
+body {
+    background-color: #f0f2f5;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+}
+
+/* Table */
+th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+.badge-mobile {
+    font-size: 0.78rem;
+}
+
+/* Toast notifications */
+#toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+}
