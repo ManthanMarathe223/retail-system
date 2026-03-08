@@ -20,8 +20,11 @@ app.use(express.static(publicPath));
 
 // ── API Routes ────────────────────────────────
 app.use("/suppliers", require("./routes/suppliers"));
-// app.use("/products",  require("./routes/products"));  ← add future entities here
-// app.use("/customers", require("./routes/customers"));
+app.use("/products", require("./routes/products"));
+app.use("/customers", require("./routes/customers"));
+app.use("/stores", require("./routes/stores"));
+app.use("/employees", require("./routes/employees"));
+app.use("/orders", require("./routes/orders"));
 
 // ── Fallback: serve index.html for root ───────
 app.get("/", (req, res) => {
