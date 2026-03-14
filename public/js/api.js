@@ -3,7 +3,7 @@
 // Used by all entity JS files (suppliers.js, etc.)
 // ─────────────────────────────────────────────
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "";
 
 /**
  * GET  /path
