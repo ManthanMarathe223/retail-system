@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home — Retail Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ── NAVBAR ──────────────────────────────────── -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/home.html">
+                <i class="bi bi-shop me-2"></i>Retail MS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/home.html">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/suppliers.html">
+                            <i class="bi bi-truck me-1"></i>Suppliers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products.html">
+                            <i class="bi bi-box-seam me-1"></i>Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customers.html">
+                            <i class="bi bi-people me-1"></i>Customers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stores.html">
+                            <i class="bi bi-building me-1"></i>Stores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/employees.html">
+                            <i class="bi bi-person-badge me-1"></i>Employees
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/orders.html">
+                            <i class="bi bi-cart3 me-1"></i>Orders
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ── HERO SECTION ──────────────────────────────── -->
+    <section class="hero-section text-white text-center animate-fade-in">
+        <div class="container py-5">
+            <i class="bi bi-shop-window hero-icon mb-3 d-block"></i>
+            <h1 class="display-5 fw-bold mb-3">Retail Management System</h1>
+            <p class="lead mb-4">
+                A full-stack web application to manage suppliers, products, customers,<br>
+                stores, employees, and orders — all in one place.
+            </p>
+            <a href="/suppliers.html" class="btn btn-light btn-lg fw-semibold px-4">
+                <i class="bi bi-arrow-right-circle me-2"></i>Get Started
+            </a>
+        </div>
+    </section>
+
+    <!-- ── FEATURES SECTION ───────────────────────────── -->
+    <div class="container py-5">
+        <h2 class="text-center fw-bold mb-2 animate-fade-in">Modules</h2>
+        <p class="text-center text-muted mb-4 animate-fade-in">Everything you need to run your retail business</p>
+
+        <div class="row g-4 animate-fade-in">
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon-wrap bg-primary-subtle mb-3">
+                            <i class="bi bi-truck fs-2 text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold">Suppliers</h5>
+                        <p class="text-muted small mb-3">Manage supplier details and their contact mobile numbers.</p>
+                        <a href="/suppliers.html" class="btn btn-outline-primary btn-sm">Open Module</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon-wrap bg-success-subtle mb-3">
+                            <i class="bi bi-box-seam fs-2 text-success"></i>
+                        </div>
+                        <h5 class="fw-bold">Products</h5>
+                        <p class="text-muted small mb-3">Track inventory, pricing, and product supplier links.</p>
+                        <a href="/products.html" class="btn btn-outline-success btn-sm">Open Module</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon-wrap bg-info-subtle mb-3">
+                            <i class="bi bi-people fs-2 text-info"></i>
+                        </div>
+                        <h5 class="fw-bold">Customers</h5>
+                        <p class="text-muted small mb-3">Store and manage customer records and contact info.</p>
+                        <a href="/customers.html" class="btn btn-outline-info btn-sm">Open Module</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon-wrap bg-warning-subtle mb-3">
+                            <i class="bi bi-building fs-2 text-warning"></i>
+                        </div>
+                        <h5 class="fw-bold">Stores</h5>
+                        <p class="text-muted small mb-3">Manage store locations, city, address, and contact numbers.</p>
+                        <a href="/stores.html" class="btn btn-outline-warning btn-sm">Open Module</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon-wrap bg-danger-subtle mb-3">
+                            <i class="bi bi-person-badge fs-2 text-danger"></i>
+                        </div>
+                        <h5 class="fw-bold">Employees</h5>
+                        <p class="text-muted small mb-3">Keep track of employee profiles and store assignments.</p>
+                        <a href="/employees.html" class="btn btn-outline-danger btn-sm">Open Module</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-3 feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon-wrap bg-secondary-subtle mb-3">
+                            <i class="bi bi-cart3 fs-2 text-secondary"></i>
+                        </div>
+                        <h5 class="fw-bold">Orders</h5>
+                        <p class="text-muted small mb-3">Create and manage customer orders with itemized details.</p>
+                        <a href="/orders.html" class="btn btn-outline-secondary btn-sm">Open Module</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TECH STACK SECTION ─────────────────────────── -->
+    <div class="bg-dark text-white py-5 animate-fade-in">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-2">Tech Stack</h2>
+            <p class="text-white-50 mb-4">Built with reliable, industry-standard technologies</p>
+            <div class="row justify-content-center g-3">
+                <div class="col-6 col-md-3">
+                    <div class="tech-card p-3 rounded">
+                        <i class="bi bi-hdd-stack fs-2 mb-2 d-block text-success"></i>
+                        <div class="fw-semibold">Node.js</div>
+                        <small class="text-white-50">Server Runtime</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-card p-3 rounded">
+                        <i class="bi bi-layout-wtf fs-2 mb-2 d-block text-warning"></i>
+                        <div class="fw-semibold">Express</div>
+                        <small class="text-white-50">Web Framework</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-card p-3 rounded">
+                        <i class="bi bi-database fs-2 mb-2 d-block text-info"></i>
+                        <div class="fw-semibold">MySQL</div>
+                        <small class="text-white-50">Relational Database</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-card p-3 rounded">
+                        <i class="bi bi-bootstrap fs-2 mb-2 d-block text-primary"></i>
+                        <div class="fw-semibold">Bootstrap 5</div>
+                        <small class="text-white-50">UI Framework</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── FOOTER ─────────────────────────────────────── -->
+    <footer class="text-center text-muted py-4 border-top bg-white">
+        <small>
+            <strong>Retail Management System</strong> &mdash; DBMS Mini Project &mdash;
+            Developed by <strong>Manthan Marathe</strong>
+        </small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

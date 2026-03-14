@@ -28,7 +28,7 @@ app.use("/orders", require("./routes/orders"));
 
 // ── Fallback: serve index.html for root ───────
 app.get("/", (req, res) => {
-  res.sendFile(path.join(publicPath, "index.html"));
+  res.sendFile(path.join(publicPath, "home.html"));
 });
 
 // ── Start ─────────────────────────────────────

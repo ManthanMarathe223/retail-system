@@ -39,3 +39,81 @@ tr:hover {
     right: 1rem;
     z-index: 9999;
 }
+
+/* ─────────────────────────────────────────────
+   Scroll-in animation — used on all pages
+   ───────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Stagger child cards inside animated rows */
+.animate-fade-in .col-md-4:nth-child(1) { animation-delay: 0.05s; }
+.animate-fade-in .col-md-4:nth-child(2) { animation-delay: 0.12s; }
+.animate-fade-in .col-md-4:nth-child(3) { animation-delay: 0.19s; }
+.animate-fade-in .col-md-4:nth-child(4) { animation-delay: 0.26s; }
+.animate-fade-in .col-md-4:nth-child(5) { animation-delay: 0.33s; }
+.animate-fade-in .col-md-4:nth-child(6) { animation-delay: 0.40s; }
+
+/* ─────────────────────────────────────────────
+   Home page — Hero
+   ───────────────────────────────────────────── */
+
+.hero-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 5rem 0;
+}
+
+.hero-icon {
+    font-size: 4rem;
+    opacity: 0.9;
+}
+
+/* ─────────────────────────────────────────────
+   Home page — Feature cards
+   ───────────────────────────────────────────── */
+
+.feature-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.feature-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    margin: 0 auto;
+}
+
+/* ─────────────────────────────────────────────
+   Home page — Tech stack cards
+   ───────────────────────────────────────────── */
+
+.tech-card {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.tech-card:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
