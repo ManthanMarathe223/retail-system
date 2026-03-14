@@ -33,9 +33,9 @@ function renderTable(rows) {
 
     tbody.innerHTML = rows.map(s => {
         const safeName = s.store_name.replace(/'/g, "\\'");
-        const cityCell = s.store_city || "<span class='text-muted'>—</span>";
-        const addrCell = s.store_address || "<span class='text-muted'>—</span>";
-        const phoneCell = s.store_phone || "<span class='text-muted'>—</span>";
+        const cityCell = s.city || "<span class='text-muted'>—</span>";
+        const addrCell = s.address || "<span class='text-muted'>—</span>";
+        const phoneCell = s.contact_number || "<span class='text-muted'>—</span>";
 
         return `<tr>
             <td><strong>${s.store_id}</strong></td>
@@ -110,9 +110,9 @@ document.getElementById("storeForm").addEventListener("submit", async (e) => {
     const body = {
         store_id: parseInt(id),
         store_name: document.getElementById("store_name").value.trim(),
-        store_city: document.getElementById("store_city").value.trim(),
-        store_address: document.getElementById("store_address").value.trim(),
-        store_phone: document.getElementById("store_phone").value.trim(),
+        city: document.getElementById("store_city").value.trim(),
+        address: document.getElementById("store_address").value.trim(),
+        contact_number: document.getElementById("store_phone").value.trim(),
     };
 
     try {
@@ -146,9 +146,9 @@ async function editStore(id) {
         document.getElementById("store_id").value = s.store_id;
         document.getElementById("store_id").readOnly = true;
         document.getElementById("store_name").value = s.store_name;
-        document.getElementById("store_city").value = s.store_city || "";
-        document.getElementById("store_address").value = s.store_address || "";
-        document.getElementById("store_phone").value = s.store_phone || "";
+        document.getElementById("store_city").value = s.city || "";
+        document.getElementById("store_address").value = s.address || "";
+        document.getElementById("store_phone").value = s.contact_number || "";
 
         setButtonDisabled("submitBtn", false);
         setButtonDisabled("cancelBtn", false);

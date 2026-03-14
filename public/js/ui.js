@@ -36,7 +36,7 @@ function showToast(message, type = "success") {
  *
  * @param {string}   btnId      - ID of the button element
  * @param {Function} onConfirm  - Callback executed on second click
- * @param {string}   [confirmLabel] - Label shown after first click (default "✓ Sure?")
+ * @param {string}   [confirmLabel] - Label shown after first click (default "Sure?")
  */
 function twoClickConfirm(btnId, onConfirm, confirmLabel = "<i class='bi bi-check-lg'></i> Sure?") {
     const btn = document.getElementById(btnId);
