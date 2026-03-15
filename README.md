@@ -163,22 +163,7 @@ All entities follow the same RESTful pattern:
 
 This project is deployed on **[Railway](https://railway.app)**, which handles both the **Node.js app hosting** and the **managed MySQL database**.
 
-### Deployment Configuration
-
-**`railway.json`**
-```json
-{
-  "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "npm install"
-  },
-  "deploy": {
-    "startCommand": "node server.js",
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  }
-}
-```
+---
 
 ### Environment Variables (Railway Dashboard)
 
@@ -194,12 +179,6 @@ Set these in the **Variables** tab of your Railway project:
 | `PORT`        | Auto-injected by Railway           |
 
 > **Database import:** The MySQL database was imported using **MySQL Workbench** connected to the Railway MySQL instance via the provided host, port, and credentials.
-
----
-
-## 📸 Screenshots
-
-> _Screenshots coming soon..._
 
 ---
 
