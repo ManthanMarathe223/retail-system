@@ -25,6 +25,7 @@ app.use("/customers", require("./routes/customers"));
 app.use("/stores", require("./routes/stores"));
 app.use("/employees", require("./routes/employees"));
 app.use("/orders", require("./routes/orders"));
+app.use("/dashboard", require("./routes/dashboard"));
 
 // ── Fallback: serve index.html for root ───────
 app.get("/", (req, res) => {

@@ -33,14 +33,28 @@ function renderTable(rows) {
     }
 
     tbody.innerHTML = rows.map(p => {
-        const safeName = p.pro_name.replace(/'/g, "\\'");
-        const typeCell = p.pro_type || "<span class='text-muted'>—</span>";
-        const descCell = p.pro_description || "<span class='text-muted'>—</span>";
+        const safeName  = p.pro_name.replace(/'/g, "\\'");
+        const typeCell  = p.pro_type || "<span class='text-muted'>—</span>";
+        const descCell  = p.pro_description || "<span class='text-muted'>—</span>";
         const priceCell = p.pro_price != null ? `₹${parseFloat(p.pro_price).toFixed(2)}` : "<span class='text-muted'>—</span>";
-        const stockBadge = `<span class="badge ${p.stock_quantity > 0 ? 'bg-success' : 'bg-danger'}">${p.stock_quantity}</span>`;
-        const suppCell = p.supp_id || "<span class='text-muted'>—</span>";
+        const suppCell  = p.supp_id || "<span class='text-muted'>—</span>";
 
-        return `<tr>
+        // ── Low Stock logic ──────────────────────────
+        const qty = p.stock_quantity;
+        let rowClass    = "";
+        let stockBadge  = `<span class="badge bg-success">${qty}</span>`;
+
+        if (qty === 0) {
+            rowClass   = "table-danger";
+            stockBadge = `<span class="badge bg-danger me-1">${qty}</span>
+                          <span class="badge bg-danger border border-white">Out of Stock</span>`;
+        } else if (qty < 5) {
+            rowClass   = "table-danger";
+            stockBadge = `<span class="badge bg-warning text-dark me-1">${qty}</span>
+                          <span class="badge bg-warning text-dark border border-white">Low Stock</span>`;
+        }
+
+        return `<tr class="${rowClass}">
             <td><strong>${p.pro_id}</strong></td>
             <td>${p.pro_name}</td>
             <td>${typeCell}</td>

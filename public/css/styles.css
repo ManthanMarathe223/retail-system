@@ -73,7 +73,41 @@ tr:hover {
 
 .hero-section {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    padding: 5rem 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* ─────────────────────────────────────────────
+   Home page — Live stats section
+   ───────────────────────────────────────────── */
+
+.live-stats-section {
+    padding: 4rem 0;
+    background-color: #fff;
+    border-top: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.live-stat-number {
+    font-size: 3rem;
+    line-height: 1;
+    color: #1a1a2e;
+}
+
+/* ─────────────────────────────────────────────
+   Dashboard — Stat cards
+   ───────────────────────────────────────────── */
+
+.stat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .hero-icon {

@@ -29,6 +29,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/suppliers.html">
                             <i class="bi bi-truck me-1"></i>Suppliers
                         </a>
@@ -64,8 +69,8 @@
     </nav>
 
     <!-- ── HERO SECTION ──────────────────────────────── -->
-    <section class="hero-section text-white text-center animate-fade-in">
-        <div class="container py-5">
+    <section class="hero-section text-white animate-fade-in">
+        <div class="container text-center">
             <i class="bi bi-shop-window hero-icon mb-3 d-block"></i>
             <h1 class="display-5 fw-bold mb-3">Retail Management System</h1>
             <p class="lead mb-4">
@@ -77,6 +82,32 @@
             </a>
         </div>
     </section>
+
+    <!-- ── LIVE STATS SECTION ────────────────────────── -->
+    <div class="live-stats-section animate-fade-in">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-1">By the Numbers</h2>
+            <p class="text-muted mb-4">Live figures pulled straight from the database</p>
+            <div class="row g-4 justify-content-center">
+                <div class="col-6 col-md-3">
+                    <div class="live-stat-number fw-bold" id="live-suppliers">0</div>
+                    <div class="text-muted mt-1"><i class="bi bi-truck me-1 text-primary"></i>Suppliers</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="live-stat-number fw-bold" id="live-products">0</div>
+                    <div class="text-muted mt-1"><i class="bi bi-box-seam me-1 text-success"></i>Products</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="live-stat-number fw-bold" id="live-customers">0</div>
+                    <div class="text-muted mt-1"><i class="bi bi-people me-1 text-info"></i>Customers</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="live-stat-number fw-bold" id="live-orders">0</div>
+                    <div class="text-muted mt-1"><i class="bi bi-cart3 me-1 text-secondary"></i>Orders</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ── FEATURES SECTION ───────────────────────────── -->
     <div class="container py-5">
@@ -205,6 +236,40 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        // ── Count-up animation (pure JS, no libraries) ──
+        function countUp(el, target, duration) {
+            const start     = performance.now();
+            const startVal  = 0;
+            function step(now) {
+                const elapsed  = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                // ease-out cubic
+                const eased    = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(startVal + eased * (target - startVal));
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
+        // ── Intersection Observer: animate when section scrolls into view ──
+        const statsSection = document.querySelector(".live-stats-section");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                observer.unobserve(entry.target);
+                apiGet("/dashboard/stats").then(({ ok, data }) => {
+                    if (!ok) return;
+                    countUp(document.getElementById("live-suppliers"), data.suppliers, 1200);
+                    countUp(document.getElementById("live-products"),  data.products,  1200);
+                    countUp(document.getElementById("live-customers"), data.customers, 1200);
+                    countUp(document.getElementById("live-orders"),    data.orders,    1200);
+                });
+            });
+        }, { threshold: 0.3 });
+        observer.observe(statsSection);
+    </script>
 
 </body>
 

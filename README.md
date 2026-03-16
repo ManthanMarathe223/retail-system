@@ -26,6 +26,9 @@ A full-stack web application to manage retail operations — including suppliers
 - 🏬 **Store Management** — Track stores with city and address information
 - 👨‍💼 **Employee Management** — Manage employees with designation, salary, and store assignment
 - 🧾 **Order Management** — Handle orders with items, linked to customer, employee, and store
+- 📊 **Analytics Dashboard** — Live overview with 6 stat cards + 3 Chart.js charts (Products per Type, Employees per Store, Revenue per Store)
+- 🚨 **Low Stock Alerts** — Products with `stock = 0` highlighted red with **Out of Stock** badge; stock 1–4 shows **Low Stock** badge
+- 📈 **Live Stats on Home Page** — Hero section fills the full viewport; scrolling reveals a count-up animated stats section pulling live counts from the DB
 - 🔍 **Search & Filter** — Live search and filter available on all pages
 - 🔔 **Toast Notifications** — Success/error feedback on every action
 - 🗑️ **2-Click Delete Confirmation** — Prevents accidental deletions
@@ -37,22 +40,29 @@ A full-stack web application to manage retail operations — including suppliers
 ```
 retail-system/
 ├── public/                  # Frontend — HTML pages, CSS, and JS
-│   ├── home.html
+│   ├── home.html            # Landing page with hero + live stats
+│   ├── dashboard.html       # Analytics dashboard (charts + stat cards)
 │   ├── suppliers.html
-│   ├── products.html
+│   ├── products.html        # Includes low-stock row highlighting
 │   ├── customers.html
 │   ├── stores.html
 │   ├── employees.html
 │   ├── orders.html
-│   ├── css/                 # Stylesheets
-│   └── js/                  # Frontend JavaScript (CRUD + UI logic)
+│   ├── css/
+│   │   └── styles.css       # Global styles incl. hero, stat cards, live stats
+│   └── js/
+│       ├── api.js           # Shared fetch helpers
+│       ├── ui.js            # Shared UI utilities (toast, debounce, etc.)
+│       ├── dashboard.js     # Dashboard chart & stat card logic
+│       └── ...              # Per-page CRUD logic
 ├── routes/                  # Express REST API route handlers
 │   ├── suppliers.js
 │   ├── products.js
 │   ├── customers.js
 │   ├── stores.js
 │   ├── employees.js
-│   └── orders.js
+│   ├── orders.js
+│   └── dashboard.js         # Read-only analytics endpoints
 ├── db.js                    # Shared MySQL connection module
 ├── server.js                # Express app entry point
 ├── retail_management_script.sql  # Database schema + seed data
@@ -66,12 +76,13 @@ retail-system/
 
 ## 🛠️ Tech Stack
 
-| Layer      | Technology                          |
-|------------|-------------------------------------|
-| Frontend   | HTML5, Bootstrap 5.3, Bootstrap Icons, Vanilla JS |
-| Backend    | Node.js, Express.js                 |
-| Database   | MySQL 8                             |
-| Hosting    | Railway (Node.js + MySQL)           |
+| Layer      | Technology                                              |
+|------------|---------------------------------------------------------|
+| Frontend   | HTML5, Bootstrap 5.3, Bootstrap Icons, Vanilla JS       |
+| Charts     | [Chart.js 4.4](https://www.chartjs.org/) (CDN)          |
+| Backend    | Node.js, Express.js                                     |
+| Database   | MySQL 8                                                 |
+| Hosting    | Railway (Node.js + MySQL)                               |
 
 ---
 
@@ -156,6 +167,15 @@ All entities follow the same RESTful pattern:
 | `DELETE` | `/suppliers/:id`   | Delete a supplier      |
 
 > The same pattern applies for `/products`, `/customers`, `/stores`, `/employees`, and `/orders`.
+
+### 📊 Dashboard Endpoints (read-only)
+
+| Method | Endpoint                          | Description                                    |
+|--------|-----------------------------------|------------------------------------------------|
+| `GET`  | `/dashboard/stats`                | Total count of all 6 entities                  |
+| `GET`  | `/dashboard/products-by-type`     | Product count grouped by `pro_type`            |
+| `GET`  | `/dashboard/employees-by-store`   | Employee count grouped by store name           |
+| `GET`  | `/dashboard/revenue-by-store`     | Revenue (`quantity × price`) grouped by store  |
 
 ---
 
