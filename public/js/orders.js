@@ -285,6 +285,49 @@ async function deleteItem(proId) {
 }
 
 // ═══════════════════════════════════════════════
+// SALES SUMMARY (Revenue per Store + Orders per Customer)
+// ═══════════════════════════════════════════════
+
+async function loadSalesSummary() {
+    // Revenue per Store
+    try {
+        const { ok, data } = await apiGet("/orders/summary/by-store");
+        const tbody = document.getElementById("summaryByStoreBody");
+        if (!ok || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-3">No data</td></tr>`;
+        } else {
+            tbody.innerHTML = data.map(r => {
+                const revenue = parseFloat(r.revenue) || 0;
+                return `<tr>
+                    <td><span class="badge bg-warning text-dark">${r.store_name}</span></td>
+                    <td>${r.total_orders}</td>
+                    <td><strong>₹${revenue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</strong></td>
+                </tr>`;
+            }).join("");
+        }
+    } catch {
+        showToast("Failed to load store summary", "danger");
+    }
+
+    // Orders per Customer
+    try {
+        const { ok, data } = await apiGet("/orders/summary/by-customer");
+        const tbody = document.getElementById("summaryByCustomerBody");
+        if (!ok || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="2" class="text-center text-muted py-3">No data</td></tr>`;
+        } else {
+            tbody.innerHTML = data.map(r => `<tr>
+                <td><span class="badge bg-info text-dark">${r.cus_name}</span></td>
+                <td>${r.total_orders}</td>
+            </tr>`).join("");
+        }
+    } catch {
+        showToast("Failed to load customer summary", "danger");
+    }
+}
+
+// ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
 loadOrders();
+loadSalesSummary();

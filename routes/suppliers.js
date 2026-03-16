@@ -144,4 +144,18 @@ router.delete("/:id/mobiles/:mobile", (req, res) => {
     });
 });
 
-module.exports = router;
+// GET /suppliers/:id/products — all products by this supplier
+router.get("/:id/products", (req, res) => {
+    const sql = `
+        SELECT pro_id, pro_name, pro_type, pro_price, stock_quantity
+        FROM product
+        WHERE supp_id = ?
+        ORDER BY pro_id
+    `;
+    db.query(sql, [req.params.id], (err, results) => {
+        if (err) return res.status(500).json({ error: "Failed to fetch products for supplier", details: err.message });
+        res.json(results);
+    });
+});
+
+module.exports = router;

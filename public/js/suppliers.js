@@ -30,7 +30,7 @@ function renderTable(rows) {
         rows.length + " supplier" + (rows.length !== 1 ? "s" : "");
 
     if (rows.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">
             <i class="bi bi-inbox fs-4 d-block mb-1"></i>No suppliers found</td></tr>`;
         return;
     }
@@ -50,6 +50,12 @@ function renderTable(rows) {
             <td>${emailCell}</td>
             <td>${addrCell}</td>
             <td>${mobileHtml}</td>
+            <td>
+                <button class="btn btn-sm btn-success"
+                    onclick="openProductsModal(${s.supp_id}, '${safeName}')" title="View Products">
+                    <i class="bi bi-box-seam me-1"></i>View
+                </button>
+            </td>
             <td class="text-center">
                 <button class="btn btn-sm btn-warning me-1"
                     onclick="editSupplier(${s.supp_id})" title="Edit">
@@ -315,6 +321,48 @@ async function deleteMobile(mobile) {
         loadSuppliers();
     } catch {
         showToast("Failed to delete. Is the server running?", "danger");
+    }
+}
+
+// ═══════════════════════════════════════════════
+// SUPPLIER PRODUCTS MODAL
+// ═══════════════════════════════════════════════
+
+let suppProductsModalInstance;
+
+async function openProductsModal(suppId, suppName) {
+    document.getElementById("prodModalSuppName").textContent = suppName;
+    const tbody = document.getElementById("prodModalBody");
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">Loading...</td></tr>`;
+
+    suppProductsModalInstance = new bootstrap.Modal(document.getElementById("suppProductsModal"));
+    suppProductsModalInstance.show();
+
+    try {
+        const { ok, data } = await apiGet(`/suppliers/${suppId}/products`);
+        if (!ok) {
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-3">${data.error || "Failed to load products"}</td></tr>`;
+            return;
+        }
+        if (data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">
+                <i class="bi bi-inbox fs-4 d-block mb-1"></i>No products for this supplier</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = data.map(p => {
+            const stockBadge = p.stock_quantity < 10
+                ? `<span class="badge bg-danger">${p.stock_quantity}</span>`
+                : `<span class="badge bg-success">${p.stock_quantity}</span>`;
+            return `<tr>
+                <td><strong>${p.pro_id}</strong></td>
+                <td>${p.pro_name}</td>
+                <td>${p.pro_type || "—"}</td>
+                <td>₹${parseFloat(p.pro_price).toFixed(2)}</td>
+                <td>${stockBadge}</td>
+            </tr>`;
+        }).join("");
+    } catch {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-3">Cannot reach server</td></tr>`;
     }
 }
 

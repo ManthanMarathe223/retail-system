@@ -8,7 +8,7 @@ const router = express.Router();
 const db = require("../db");
 
 // ── GET /dashboard/stats ─────────────────────
-// Returns total count of every entity
+// Returns total count of every entity (kept for backward compat)
 router.get("/stats", (req, res) => {
     const sql = `
         SELECT
@@ -22,6 +22,78 @@ router.get("/stats", (req, res) => {
     db.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: "Failed to fetch stats", details: err.message });
         res.json(results[0]);
+    });
+});
+
+// ── GET /dashboard/summary-stats ─────────────
+// Counts + total revenue (qty × price from order_items JOIN product)
+router.get("/summary-stats", (req, res) => {
+    const sql = `
+        SELECT
+            (SELECT COUNT(*) FROM supplier)  AS suppliers,
+            (SELECT COUNT(*) FROM product)   AS products,
+            (SELECT COUNT(*) FROM customer)  AS customers,
+            (SELECT COUNT(*) FROM orders)    AS orders,
+            COALESCE((SELECT SUM(oi.quantity * p.pro_price)
+                      FROM order_items oi
+                      JOIN product p ON oi.pro_id = p.pro_id), 0) AS total_revenue
+    `;
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Failed to fetch summary stats", details: err.message });
+        res.json(results[0]);
+    });
+});
+
+// ── GET /dashboard/low-stock ──────────────────
+// Products with stock_quantity < 10
+router.get("/low-stock", (req, res) => {
+    const sql = `
+        SELECT pro_id, pro_name, pro_type, stock_quantity
+        FROM product
+        WHERE stock_quantity < 10
+        ORDER BY stock_quantity ASC
+    `;
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Failed to fetch low stock", details: err.message });
+        res.json(results);
+    });
+});
+
+// ── GET /dashboard/top-products ───────────────
+// Top 5 best-selling products by total qty sold
+router.get("/top-products", (req, res) => {
+    const sql = `
+        SELECT p.pro_name, p.pro_type, SUM(oi.quantity) AS total_sold
+        FROM order_items oi
+        JOIN product p ON oi.pro_id = p.pro_id
+        GROUP BY p.pro_id, p.pro_name, p.pro_type
+        ORDER BY total_sold DESC
+        LIMIT 5
+    `;
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Failed to fetch top products", details: err.message });
+        res.json(results);
+    });
+});
+
+// ── GET /dashboard/recent-orders ──────────────
+// Last 5 orders with customer name, date, store name
+router.get("/recent-orders", (req, res) => {
+    const sql = `
+        SELECT
+            o.order_id,
+            o.order_date,
+            CONCAT(c.f_name, ' ', c.l_name) AS cus_name,
+            s.store_name
+        FROM orders o
+        LEFT JOIN customer c ON o.cus_id   = c.cus_id
+        LEFT JOIN store    s ON o.store_id = s.store_id
+        ORDER BY o.order_id DESC
+        LIMIT 5
+    `;
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Failed to fetch recent orders", details: err.message });
+        res.json(results);
     });
 });
 

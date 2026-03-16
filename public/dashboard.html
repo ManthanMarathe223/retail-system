@@ -81,23 +81,23 @@
         </h2>
         <p class="text-muted mb-4">Live overview of your retail system</p>
 
-        <!-- ── STAT CARDS ──────────────────────────────── -->
+        <!-- ── SUMMARY STAT CARDS ──────────────────────────────── -->
         <div class="row g-3 mb-4">
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card text-center h-100 stat-card">
-                    <div class="card-body py-3">
-                        <i class="bi bi-truck fs-3 text-primary mb-2 d-block"></i>
-                        <div class="stat-number fw-bold fs-3 text-dark" id="stat-suppliers">—</div>
-                        <div class="text-muted small">Suppliers</div>
-                    </div>
-                </div>
-            </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card text-center h-100 stat-card">
                     <div class="card-body py-3">
                         <i class="bi bi-box-seam fs-3 text-success mb-2 d-block"></i>
                         <div class="stat-number fw-bold fs-3 text-dark" id="stat-products">—</div>
                         <div class="text-muted small">Products</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card text-center h-100 stat-card">
+                    <div class="card-body py-3">
+                        <i class="bi bi-truck fs-3 text-primary mb-2 d-block"></i>
+                        <div class="stat-number fw-bold fs-3 text-dark" id="stat-suppliers">—</div>
+                        <div class="text-muted small">Suppliers</div>
                     </div>
                 </div>
             </div>
@@ -113,27 +113,106 @@
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card text-center h-100 stat-card">
                     <div class="card-body py-3">
-                        <i class="bi bi-building fs-3 text-warning mb-2 d-block"></i>
-                        <div class="stat-number fw-bold fs-3 text-dark" id="stat-stores">—</div>
-                        <div class="text-muted small">Stores</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card text-center h-100 stat-card">
-                    <div class="card-body py-3">
-                        <i class="bi bi-person-badge fs-3 text-danger mb-2 d-block"></i>
-                        <div class="stat-number fw-bold fs-3 text-dark" id="stat-employees">—</div>
-                        <div class="text-muted small">Employees</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card text-center h-100 stat-card">
-                    <div class="card-body py-3">
                         <i class="bi bi-cart3 fs-3 text-secondary mb-2 d-block"></i>
                         <div class="stat-number fw-bold fs-3 text-dark" id="stat-orders">—</div>
                         <div class="text-muted small">Orders</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Total Revenue — spans 2 columns for visual emphasis -->
+            <div class="col-12 col-md-8 col-lg-4">
+                <div class="card text-center h-100 stat-card border-success">
+                    <div class="card-body py-3">
+                        <i class="bi bi-currency-rupee fs-3 text-success mb-2 d-block"></i>
+                        <div class="stat-number fw-bold fs-2 text-success" id="stat-revenue">—</div>
+                        <div class="text-muted small">Total Revenue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── LOW STOCK ALERT ────────────────────────────────── -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <strong>Low Stock Alert</strong>
+                        <span class="badge bg-white text-danger ms-auto" id="low-stock-count">0</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Stock Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="low-stock-body">
+                                    <tr><td colspan="4" class="text-center text-muted py-3">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── TOP PRODUCTS + RECENT ORDERS ─────────────────────── -->
+        <div class="row g-4 mb-4">
+            <!-- Top 5 Best Selling Products -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white d-flex align-items-center gap-2">
+                        <i class="bi bi-trophy-fill text-warning"></i>
+                        <strong>Top 5 Best Selling Products</strong>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Product</th>
+                                        <th>Type</th>
+                                        <th>Total Sold</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top-products-body">
+                                    <tr><td colspan="4" class="text-center text-muted py-3">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent 5 Orders -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white d-flex align-items-center gap-2">
+                        <i class="bi bi-clock-history text-info"></i>
+                        <strong>Recent 5 Orders</strong>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Store</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-orders-body">
+                                    <tr><td colspan="4" class="text-center text-muted py-3">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -39,6 +39,45 @@ router.get("/search/filter", (req, res) => {
     });
 });
 
+// GET /orders/summary/by-store ───────────────
+// Total revenue and order count grouped by store
+router.get("/summary/by-store", (req, res) => {
+    const sql = `
+        SELECT
+            s.store_name,
+            COUNT(DISTINCT o.order_id)         AS total_orders,
+            COALESCE(SUM(oi.quantity * p.pro_price), 0) AS revenue
+        FROM store s
+        LEFT JOIN orders     o  ON o.store_id  = s.store_id
+        LEFT JOIN order_items oi ON oi.order_id = o.order_id
+        LEFT JOIN product     p  ON oi.pro_id   = p.pro_id
+        GROUP BY s.store_id, s.store_name
+        ORDER BY revenue DESC
+    `;
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Failed to fetch store summary", details: err.message });
+        res.json(results);
+    });
+});
+
+// GET /orders/summary/by-customer ───────────
+// Total orders per customer
+router.get("/summary/by-customer", (req, res) => {
+    const sql = `
+        SELECT
+            CONCAT(c.f_name, ' ', c.l_name) AS cus_name,
+            COUNT(o.order_id)               AS total_orders
+        FROM customer c
+        LEFT JOIN orders o ON o.cus_id = c.cus_id
+        GROUP BY c.cus_id, c.f_name, c.l_name
+        ORDER BY total_orders DESC
+    `;
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Failed to fetch customer summary", details: err.message });
+        res.json(results);
+    });
+});
+
 router.get("/:id", (req, res) => {
     const sql = SELECT_ORDER_BASE + " WHERE o.order_id = ?";
     db.query(sql, [req.params.id], (err, results) => {
@@ -120,7 +159,18 @@ router.post("/:id/items", (req, res) => {
                 return res.status(400).json({ error: "Order or product not found" });
             return res.status(500).json({ error: "Failed to add item", details: err.message });
         }
-        res.status(201).json({ message: "Item added to order" });
+        // Automatically deduct stock after item is inserted
+        db.query(
+            "UPDATE product SET stock_quantity = stock_quantity - ? WHERE pro_id = ?",
+            [quantity, pro_id],
+            (err2) => {
+                if (err2) {
+                    // Log but don't fail - item was already inserted
+                    console.error("Stock deduction failed:", err2.message);
+                }
+                res.status(201).json({ message: "Item added to order" });
+            }
+        );
     });
 });
 
